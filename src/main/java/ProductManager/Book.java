@@ -16,4 +16,14 @@ public class Book extends Product {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+    // метод определения соответствия товара book запросу search
+    @Override
+    public boolean matches(String search) {
+        if (super.matches(search)) {
+            return true;
+        } else {
+            return this.author.contains(search);
+        }
+    }
 }

@@ -10,7 +10,7 @@ public class ProductManager {
     }
 
     // Метод добавления Product
-    public void add (Product product) {
+    public void add(Product product) {
         repo.save(product);
     }
 
@@ -18,7 +18,7 @@ public class ProductManager {
 
     public Product[] searchBy(String text) {
         Product[] result = new Product[0]; // тут будем хранить подошедшие запросу продукты
-        for (Product product: repo.findAll()) {
+        for (Product product : repo.findAll()) {
             if (matches(product, text)) {
                 // "добавляем в конец" массива result продукт product
                 Product[] tmp = new Product[result.length + 1];
@@ -34,8 +34,16 @@ public class ProductManager {
 
 
     // метод определения соответствия товара product запросу search
-    public boolean matches(Product product, String search) {
-        return product.getName().contains(search);
-    }
+//    public boolean matches(Product product, String search) {
+//        return product.getName().contains(search);
+//    }
 
+    public boolean matches(Product product, String search) {
+        if (product.matches(search)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }
