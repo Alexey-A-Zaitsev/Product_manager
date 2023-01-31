@@ -22,7 +22,11 @@ public class ProductRepository {
 
     // Метод удаления товара по ID
     public void removeById(int id) {
-        Product[] tmp = new Product[products.length - 1];
+        Product removeProduct = findById(id);
+        if (removeProduct == null) {
+            throw new NotFoundException(id);
+        }
+         Product[] tmp = new Product[products.length - 1];
         int copyToIndex = 0;
         for (Product product : products) {
             if (product.getProductID() != id) {
@@ -32,6 +36,17 @@ public class ProductRepository {
         }
         products = tmp;
     }
+
+    public Product findById(int id) {
+
+        for (Product product : products) {
+            if (product.getProductID() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
 
 
 }

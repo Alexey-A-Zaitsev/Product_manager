@@ -35,12 +35,23 @@ class ProductRepositoryTest {
         repo.save(smartphone1);
         repo.save(smartphone2);
 
-        repo.removeById(smartphone1.getProductID());
+        repo.removeById(76);
 
         Product[] expected = {book1, book2, smartphone2};
         Product[] actual = repo.findAll();
 
         Assertions.assertArrayEquals(expected, actual);
 
+    }
+
+    @Test
+    public void shouldIssueNotFoundException() {
+        repo.save(book1);
+        repo.save(book2);
+        repo.save(smartphone1);
+        repo.save(smartphone2);
+
+        Assertions.assertThrows(NotFoundException.class ,
+                () -> repo.removeById(4498));
     }
 }
