@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProductRepositoryTest {
     ProductRepository repo = new ProductRepository();
+    Product product = new Product(44, "Nokia", 45679);
 
     Book book1 = new Book(12, "The Green Mile", 734, "Stephen King");
     Book book2 = new Book(34, "Harry Potter 1", 1027, "Joanne Rowling");
@@ -17,7 +18,7 @@ class ProductRepositoryTest {
     Smartphone smartphone2 = new Smartphone(44, "razr V3i ", 6_386, "Motorola");
 
     @Test
-    public void shouldSavedProducts() {
+    public void shouldSaveProducts() {
         repo.save(book1);
         repo.save(smartphone2);
         repo.save(book2);
@@ -51,7 +52,20 @@ class ProductRepositoryTest {
         repo.save(smartphone1);
         repo.save(smartphone2);
 
-        Assertions.assertThrows(NotFoundException.class ,
+        Assertions.assertThrows(NotFoundException.class,
                 () -> repo.removeById(4498));
+    }
+
+    @Test
+    public void shouldIssueAlreadyExistsException() {
+        repo.save(book1);
+        repo.save(book2);
+        repo.save(smartphone1);
+        repo.save(smartphone2);
+
+        Assertions.assertThrows(AlreadyExistsException.class,
+                () -> repo.save(product));
+
+
     }
 }

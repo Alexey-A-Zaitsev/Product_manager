@@ -5,8 +5,14 @@ import ProductManager.Product;
 public class ProductRepository {
     private Product[] products = new Product[0];
 
-    // Метод сохранения товаров
-    public void save (Product product) {
+    // Метод добавления товаров
+    public void save(Product product) {
+
+        Product existProduct = findById(product.getProductID());
+        if (existProduct != null) {
+            throw new AlreadyExistsException(product.getProductID());
+        }
+
         Product[] tmp = new Product[products.length + 1];
         for (int i = 0; i < products.length; i++) {
             tmp[i] = products[i];
@@ -16,7 +22,7 @@ public class ProductRepository {
     }
 
     // Метод вывода всех сохраненных товаров
-    public Product[]  findAll() {
+    public Product[] findAll() {
         return products;
     }
 
@@ -26,7 +32,7 @@ public class ProductRepository {
         if (removeProduct == null) {
             throw new NotFoundException(id);
         }
-         Product[] tmp = new Product[products.length - 1];
+        Product[] tmp = new Product[products.length - 1];
         int copyToIndex = 0;
         for (Product product : products) {
             if (product.getProductID() != id) {
@@ -37,6 +43,7 @@ public class ProductRepository {
         products = tmp;
     }
 
+    // Метод поиска товара по ID
     public Product findById(int id) {
 
         for (Product product : products) {
@@ -46,7 +53,6 @@ public class ProductRepository {
         }
         return null;
     }
-
 
 
 }
